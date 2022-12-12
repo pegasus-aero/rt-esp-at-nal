@@ -140,6 +140,34 @@ pub enum Error {
     TimerError,
 }
 
+#[cfg(feature = "defmt")]
+impl defmt::Format for Error {
+    fn format(&self, f: defmt::Formatter) {
+        match self {
+            Error::EnablingMultiConnectionsFailed(e) => {
+                defmt::write!(f, "Error::EnablingMultiConnectionsFailed({})", e)
+            }
+            Error::EnablingPassiveSocketModeFailed(e) => {
+                defmt::write!(f, "Error::EnablingPassiveSocketModeFailed({})", e)
+            }
+            Error::ConnectError(e) => defmt::write!(f, "Error::ConnectError({})", e),
+            Error::TransmissionStartFailed(e) => defmt::write!(f, "Error::TransmissionStartFailed({})", e),
+            Error::SendFailed(e) => defmt::write!(f, "Error::SendFailed({})", e),
+            Error::ReceiveFailed(e) => defmt::write!(f, "Error::ReceiveFailed({})", e),
+            Error::CloseError(e) => defmt::write!(f, "Error::CloseError({})", e),
+            Error::PartialSend => defmt::write!(f, "Error::PartialSend"),
+            Error::UnconfirmedSocketState => defmt::write!(f, "Error::UnconfirmedSocketState"),
+            Error::NoSocketAvailable => defmt::write!(f, "Error::NoSocketAvailable"),
+            Error::AlreadyConnected => defmt::write!(f, "Error::AlreadyConnected"),
+            Error::SocketUnconnected => defmt::write!(f, "Error::SocketUnconnected"),
+            Error::ClosingSocket => defmt::write!(f, "Error::ClosingSocket"),
+            Error::ReceiveOverflow => defmt::write!(f, "Error::ReceiveOverflow"),
+            Error::UnexpectedWouldBlock => defmt::write!(f, "Error::UnexpectedWouldBlock"),
+            Error::TimerError => defmt::write!(f, "Error::TimerError"),
+        }
+    }
+}
+
 impl<A: AtatClient, T: Timer<TIMER_HZ>, const TIMER_HZ: u32, const TX_SIZE: usize, const RX_SIZE: usize> TcpClientStack
     for Adapter<A, T, TIMER_HZ, TX_SIZE, RX_SIZE>
 {

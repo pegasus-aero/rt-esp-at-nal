@@ -48,8 +48,14 @@ jobs:
           RUSTFLAGS: -D warnings
         run: cargo test
 
-      - name: Build default features
+      - name: Build in strict mode with default features
         run: cargo build --release --features strict
+
+      - name: Build in strict mode with log feature
+        run: cargo build --release --features strict,log
+
+      - name: Build in strict mode with defmt feature
+        run: cargo build --release --features strict,defmt
 
   no_std_builds:
     name: Build no_std targets
@@ -120,7 +126,7 @@ jobs:
         uses: Swatinem/rust-cache@v1
 
       - name: Check documentation
-        run: cargo rustdoc --all-features -- -D warnings
+        run: cargo rustdoc -- -D warnings
 
   clippy:
     name: Linting
@@ -139,4 +145,10 @@ jobs:
         uses: Swatinem/rust-cache@v1
 
       - name: Clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Clippy (with log feature)
+        run: cargo clippy --all-targets --features log -- -D warnings
+
+      - name: Clippy (with defmt feature)
+        run: cargo clippy --all-targets --features defmt -- -D warnings

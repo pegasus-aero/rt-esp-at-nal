@@ -14,6 +14,7 @@ documentation = "https://docs.rs/esp-at-nal"
 [dependencies]
 atat = "0.18.0"
 embedded-nal = "0.6.0"
+defmt = { version = "0.3", optional = true }
 nb = "1.0.0"
 fugit = "0.3.6"
 fugit-timer = "0.1.3"
@@ -30,6 +31,7 @@ serialport = { git = "https://github.com/dbrgn/serialport-rs", branch = "embedde
 
 [features]
 default = ["examples"]
+defmt = ["dep:defmt", "atat/defmt"]
 
 # Fail on warnings
 strict = []
